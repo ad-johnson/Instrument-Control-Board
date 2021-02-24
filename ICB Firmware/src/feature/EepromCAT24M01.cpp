@@ -23,9 +23,9 @@
  * 
  * Scope: public
  * Parameters: 
- *      deviceAddress:  This is the I2C bus address of the device; will use the default if not 
- *                      provided.
- *      shouldInitialise: If true, then the instance will join the I2C bus as a master.
+ * @param deviceAddress:    This is the I2C bus address of the device; will use the default if not 
+ *                          provided.
+ * @param shouldInitialise: If true, then the instance will join the I2C bus as a master.
  * Returns: None
  * 
  * Description:
@@ -35,21 +35,19 @@
  * will manage the I2C bus so no initialisation will be required.
  * 
  ********************************************************************************************/
-EepromCAT24M01::EepromCAT24M01(uint8_t deviceAddress, bool shouldInitialise)
+EepromCAT24M01::EepromCAT24M01(uint8_t deviceAddress)
 {
 	buildRootAddress(deviceAddress);
-    if (shouldInitialise)
-        initialise();
  }
 
 /***********************************************************************************
  * 
- * Class method name: setTimeoutInMillis(uint16_t newTimeout)
+ * void setTimeoutInMillis(uint16_t newTimeout)
  * 
  * Scope: public
  * 
  * Parameters:
- *      newTimeout: the new timout value in milliseconds.
+ * @param newTimeout: The new timout value in milliseconds.
  *
  * Returns: None
  * 
@@ -66,17 +64,17 @@ void EepromCAT24M01::setTimeoutInMillis(uint16_t newTimeout) {
 
 /***********************************************************************************
  * 
- * write(uint16_t pageNumber, uint8_t byteNumber, uint8_t data)
+ * uint8_t write(uint16_t pageNumber, uint8_t byteNumber, uint8_t data)
  * 
  * Scope: public
  * Parameters:
- * 		pageNumber: This is the internal EEPROM page to be written to ( 0 - 511.)
- *      byteNumber: This is the internal EEPROM byte to be written to (0 - 255.) 
- *		data:       This is the data being sent to the EEPROM to be written at the 
- *                  Page / Byte address
+ * @param pageNumber:   This is the internal EEPROM page to be read from, ( 0 - 511.)
+ * @param byteNumber:   This is the internal EEPROM byte to be read, (0 - 255.) 
+ * @param data:         This is the data being sent to the EEPROM to be written at the 
+ *                      Page / Byte address
  *
  * Returns:
- *		Returns 1 if the byte was written, or 0 if there was an error
+ * @return write status: Returns 1 if the byte was written, or 0 if there was an error
  * 
  * Description:
  * Converts the passed byte to a buffer and proceeds as if a multi-byte write was
@@ -92,16 +90,16 @@ uint8_t EepromCAT24M01::write(uint16_t pageNumber, uint8_t byteNumber, uint8_t d
 
 /***********************************************************************************
  * 
- * write(uint16_t pageNumber, uint8_t startByteNumber, uint8_t* buffer, uint8_t numberOfBytes)
+ * uint8_t write(uint16_t pageNumber, uint8_t startByteNumber, uint8_t* buffer, uint8_t numberOfBytes)
  * 
  * Scope: public
  * Parameters:
- * 		pageNumber:         This is the internal EEPROM page to be written to ( 0 - 511.)
- *      startByteNumber:    This is the internal EEPROM byte to be written to (0 - 255.) 
- *		buffer:             The data bytes to be writing at the page and starting byte address 
+ * @param pageNumber:       This is the internal EEPROM page to be read from, ( 0 - 511.)
+ * @param startByteNumber:  This is the internal EEPROM byte to be read, (0 - 255.) 
+ * @param buffer:           Data read is placed in this buffer
  *
  * Returns:
- *		Returns the number of bytes written, or 0 if there was an error
+ * @return	Bytes read: the number of bytes read, or 0 if there was an error
  * 
  * Description:
  * The pageNumber and byteNumber are converted into a memory address for the EEPROM,
@@ -153,17 +151,17 @@ uint8_t EepromCAT24M01::write(uint16_t pageNumber, uint8_t startByteNumber, uint
 
 /***********************************************************************************
  * 
- * Class method name: read(uint32_t memAddress, uint8_t* buffer)
+ * uint8_t read(uint32_t memAddress, uint8_t* buffer)
  * 
  * Scope: public
  * 
  * Parameters:
- * 		pageNumber: This is the internal EEPROM page to be read from, ( 0 - 511.)
- *      byteNumber: This is the internal EEPROM byte to be read, (0 - 255.) 
- *		buffer:     Data read is placed in this buffer
+ * @param pageNumber:   This is the internal EEPROM page to be read from, ( 0 - 511.)
+ * @param byteNumber:   This is the internal EEPROM byte to be read, (0 - 255.) 
+ * @param buffer:       Data read is placed in this buffer
  *
  * Returns:
- *		Returns the number of bytes read, or 0 if there was an error
+ * @return	Bytes read: the number of bytes read, or 0 if there was an error
  * 
  * Description:
  * 		This method defers to the multi-byte read.
@@ -177,18 +175,18 @@ uint8_t EepromCAT24M01::read(uint16_t pageNumber, uint8_t byteNumber, uint8_t* b
 
 /***********************************************************************************
  * 
- * Class method name: read(uint32_t memAddress, uint8_t* buffer, uint8_t numberOfBytes)
+ * uint8_t read(uint32_t memAddress, uint8_t* buffer, uint8_t numberOfBytes)
  * 
  * Scope: public
  * 
  * Parameters:
- * 		pageNumber: This is the internal EEPROM page to be read from, ( 0 - 511.)
- *      byteNumber: This is the internal EEPROM byte to be read, (0 - 255.) 
- *		buffer:     Data read is placed in this buffer
- *		numBytes:   This is the number of bytes to read
+ * @param pageNumber:   This is the internal EEPROM page to be read from, ( 0 - 511.)
+ * @param byteNumber:   This is the internal EEPROM byte to be read, (0 - 255.) 
+ * @param buffer:       Data read is placed in this buffer
+ * @param numBytes:     This is the number of bytes to read
  *
  * Returns:
- *		Returns the number of bytes read, or 0 if there was an error
+ * @return	Bytes read: the number of bytes read, or 0 if there was an error
  * 
  * Description:
  *      The pageNumber and byteNumber are converted into a memory address for the EEPROM,
@@ -252,14 +250,14 @@ uint8_t EepromCAT24M01::read(uint16_t pageNumber, uint8_t startByteNumber, uint8
   
 /***********************************************************************************
  * 
- * Class method name: getBusyStatus(uint32_t memAddress)
+ * uint8_t getBusyStatus(uint32_t memAddress)
  * 
  * Scope: public
  * 
  * Parameters: None
  *
  * Returns:
- *		Returns the busy status of the EEPROM: 1 is busy.
+ * @return busy status: whether or not the EEPROM is free: 1 is busy.
  * 
  * Description:
  * 		Sends a start request to the EEPROM, the memory address being irrelevant, and
@@ -277,29 +275,13 @@ uint8_t EepromCAT24M01::getBusyStatus() {
 
 /***********************************************************************************
  * 
- * initialise()
- * 
- * Scope: private
- * Parameters: None
- * Returns: None
- * 
- * Description:
- * This calls the Wire.begin() class method to initialize the I2C interface.
- * 
- **********************************************************************************/
-void EepromCAT24M01::initialise() {  
-	Wire.begin();        					// Join I2C bus
-}
-
-/***********************************************************************************
- * 
- * buildRootAddress(uint8_t deviceAddress)
+ * void buildRootAddress(uint8_t deviceAddress)
  * 
  * Scope: private
  * Parameters:
- * 		deviceAddress:  This is the unique address of the device on the bus, determined
- *                      by its A1 and A2 pins, so 00, 01, 10, 11.  Only 4 devices are
- *                      supported.
+ * @param deviceAddress:    This is the unique address of the device on the bus, determined
+ *                          by its A1 and A2 pins, so 00, 01, 10, 11.  Only 4 devices are
+ *                          supported.
  *
  * Returns: None
  * 
@@ -335,12 +317,12 @@ void EepromCAT24M01::buildRootAddress(uint8_t deviceAddress) {
  * 
  * Scope: private
  * Parameters:
- * 		pageNumber: This is the page to be read/written, 0 to 511.  The 9th bit of
- *                  the page number is stored in bit A16 of the slave address and
- *                  is thus added into bit 0 of the root address.
+ * @param pageNumber:   This is the page to be read/written, 0 to 511.  The 9th bit of
+ *                      the page number is stored in bit A16 of the slave address and
+ *                      is thus added into bit 0 of the root address.
  *
  * Returns:
- *      I2C Address:    the correct I2C address of the slave device, minus the read/
+ * @return I2C Address: the correct I2C address of the slave device, minus the read/
  *                      write bit.
  * 
  * Description:
@@ -376,7 +358,7 @@ uint8_t EepromCAT24M01::buildI2CAddress(uint16_t pageNumber) {
  * Parameters: None
  *
  * Returns:
- *      busy: 1 if busy and timedout, 0 otherwise
+ * @return busy: 1 if busy and timedout, 0 otherwise
  * 
  * Description:
  *      Checks the EEPROM busy status until free or the timeout passes.  In the latter
