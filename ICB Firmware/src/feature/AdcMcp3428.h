@@ -79,10 +79,10 @@ public:
     }
 
     // Check the device is alive
-    bool isConnected();
+    bool isConnected() const;
 
     // Instruct the MCP342x device to begin a conversion.
-    error_t convert(Channel channel, Mode mode, Gain gain); 
+    error_t convert(Channel channel, Mode mode, Gain gain) const; 
     error_t convert(const Configuration& configuration) const;
     
     // Read the sample value from the MCP342x device.

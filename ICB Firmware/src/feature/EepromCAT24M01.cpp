@@ -81,7 +81,7 @@ void EepromCAT24M01::setTimeoutInMillis(uint16_t newTimeout) {
  * requested.
  * 
  **********************************************************************************/
-uint8_t EepromCAT24M01::write(uint16_t pageNumber, uint8_t byteNumber, uint8_t data) {
+uint8_t EepromCAT24M01::write(uint16_t pageNumber, uint8_t byteNumber, uint8_t data) const {
 
     uint8_t buffer[] {data};
 
@@ -110,7 +110,7 @@ uint8_t EepromCAT24M01::write(uint16_t pageNumber, uint8_t byteNumber, uint8_t d
  * <slave address><page address><byte address><data byte><data byte>...<last data byte><stop byte>
  * 
  **********************************************************************************/
-uint8_t EepromCAT24M01::write(uint16_t pageNumber, uint8_t startByteNumber, uint8_t* buffer, uint8_t numberOfBytes) {
+uint8_t EepromCAT24M01::write(uint16_t pageNumber, uint8_t startByteNumber, uint8_t* buffer, uint8_t numberOfBytes) const {
 
 	uint8_t returnValue {0};
 	uint8_t bytesWritten {0};
@@ -158,7 +158,7 @@ uint8_t EepromCAT24M01::write(uint16_t pageNumber, uint8_t startByteNumber, uint
  * Parameters:
  * @param pageNumber:   This is the internal EEPROM page to be read from, ( 0 - 511.)
  * @param byteNumber:   This is the internal EEPROM byte to be read, (0 - 255.) 
- * @param buffer:       Data read is placed in this buffer
+ * @param data:         The byte read.
  *
  * Returns:
  * @return	Bytes read: the number of bytes read, or 0 if there was an error
@@ -167,9 +167,13 @@ uint8_t EepromCAT24M01::write(uint16_t pageNumber, uint8_t startByteNumber, uint
  * 		This method defers to the multi-byte read.
  * 
  **********************************************************************************/
-uint8_t EepromCAT24M01::read(uint16_t pageNumber, uint8_t byteNumber, uint8_t* buffer) {
+uint8_t EepromCAT24M01::read(uint16_t pageNumber, uint8_t byteNumber, uint8_t& data) const {
 
-    return read(pageNumber, byteNumber, buffer, 1);
+    uint8_t buffer[1] {};
+    uint8_t returnCode{read(pageNumber, byteNumber, buffer, 1)};
+    if(returnCode != 0)
+        data = buffer[1];
+    return returnCode;
 }
 
 
@@ -197,7 +201,7 @@ uint8_t EepromCAT24M01::read(uint16_t pageNumber, uint8_t byteNumber, uint8_t* b
  * <slave address><page address><byte address><stop byte>
  * 
  **********************************************************************************/
-uint8_t EepromCAT24M01::read(uint16_t pageNumber, uint8_t startByteNumber, uint8_t* buffer, uint8_t numberOfBytes) {
+uint8_t EepromCAT24M01::read(uint16_t pageNumber, uint8_t startByteNumber, uint8_t* buffer, uint8_t numberOfBytes) const {
 	uint8_t returnValue {0};
 	uint8_t I2CAddress {buildI2CAddress(pageNumber)};
 
@@ -264,13 +268,11 @@ uint8_t EepromCAT24M01::read(uint16_t pageNumber, uint8_t startByteNumber, uint8
  *      returns the returned code.
  * 
  **********************************************************************************/
-uint8_t EepromCAT24M01::getBusyStatus() {
-	uint8_t busyStatus {0};
-	
-    Wire.beginTransmission(rootAddress); // no need for an A16 bit.
-	busyStatus = Wire.endTransmission();
+uint8_t EepromCAT24M01::getBusyStatus() const {
 
-	return busyStatus;									// Return busy status
+    Wire.beginTransmission(rootAddress); // no need for an A16 bit.
+	return Wire.endTransmission();
+
 }
 
 /***********************************************************************************
@@ -336,7 +338,7 @@ void EepromCAT24M01::buildRootAddress(uint8_t deviceAddress) {
  * be, e.g., 01010111 for device 3 (11) and page number 256.
  * 
  **********************************************************************************/
-uint8_t EepromCAT24M01::buildI2CAddress(uint16_t pageNumber) {
+uint8_t EepromCAT24M01::buildI2CAddress(uint16_t pageNumber) const {
 #ifdef DEBUG_EEPROMCAT24M01
     if (pageNumber > pages) {
         Serial.print("Page Number error: ");
@@ -365,11 +367,11 @@ uint8_t EepromCAT24M01::buildI2CAddress(uint16_t pageNumber) {
  *      case, 1 will be returned.  The method only waits as long as it needs to.  NOTE:
  *  
  **********************************************************************************/
-uint8_t EepromCAT24M01::waitUntilFree() {
+uint8_t EepromCAT24M01::waitUntilFree() const {
     uint8_t busy {getBusyStatus()};
     if (busy) {
         uint32_t timeStarted = millis();
-        while (busy && (millis() - timeStarted >= timeout) ) {
+        while (busy && (millis() - timeStarted < timeout) ) {
             busy = getBusyStatus();
             if (millis() < timeStarted) { // millis overflowed
                 // reset timestarted, taking account of time elapsed so far.

@@ -55,19 +55,19 @@ public:
 	EepromCAT24M01(uint8_t deviceAddress = defaultDeviceAddress);
 	
 	// Write a byte to EEPROM
-	uint8_t write(uint16_t pageNumber, uint8_t byteNumber, uint8_t data);
+	uint8_t write(uint16_t pageNumber, uint8_t byteNumber, uint8_t data) const;
 
 	// Write a buffer of bytes to EEPROM	
-	uint8_t write(uint16_t pageNumber, uint8_t startByteNumber, uint8_t* buffer, uint8_t numberOfBytes);
+	uint8_t write(uint16_t pageNumber, uint8_t startByteNumber, uint8_t* buffer, uint8_t numberOfBytes) const;
 					
 	// Read a byte from EEPROM into a buffer
-	uint8_t read(uint16_t pageNumber, uint8_t byteNumber, uint8_t* buffer);
+	uint8_t read(uint16_t pageNumber, uint8_t byteNumber, uint8_t& data) const;
 
 	// Read multiple bytes from EEPROM into a buffer
-	uint8_t read(uint16_t pageNumber, uint8_t byteNumber, uint8_t* buffer, uint8_t numberOfBytes);
+	uint8_t read(uint16_t pageNumber, uint8_t byteNumber, uint8_t* buffer, uint8_t numberOfBytes) const;
 
 	// Return the busy status of the EEPROM
-	uint8_t getBusyStatus();
+	uint8_t getBusyStatus() const;
 
 	// Set a timeout
 	void setTimeoutInMillis(uint16_t newTimeout);				
@@ -78,8 +78,8 @@ private:
 	uint16_t	timeout {defaultTimeout}; 	// How long to wait whilst EEPROM is busy before timing out
 
 	void 	buildRootAddress(uint8_t deviceAddress); 	// Pre-build the rootAddress to speed up writes and reads
-	uint8_t buildI2CAddress(uint16_t pageNumber);
-	uint8_t waitUntilFree(); 							// wait for the EEPROM to finish last operation, or a timout to occur
+	uint8_t buildI2CAddress(uint16_t pageNumber) const;
+	uint8_t waitUntilFree() const; 							// wait for the EEPROM to finish last operation, or a timout to occur
 };
 
 #endif // EEPROM_CAT24M01_H

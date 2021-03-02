@@ -101,7 +101,7 @@ AdcMcp3428::AdcMcp3428(uint8_t deviceAddress) {
  * Request a read from the device and if it acknowledges, then it is connected.
  * 
  ********************************************************************************************/
-bool AdcMcp3428::isConnected() {
+bool AdcMcp3428::isConnected() const {
     Wire.requestFrom(address, (uint8_t)1);
     if (!Wire.available()) {
     #ifdef DEBUG_ADCMCP3428
@@ -132,7 +132,7 @@ bool AdcMcp3428::isConnected() {
  * Builds a configuration instance and defers to the Convert with that parameter.
  * 
  ********************************************************************************************/
-AdcMcp3428::error_t AdcMcp3428::convert(Channel channel, Mode mode, Gain gain) {
+AdcMcp3428::error_t AdcMcp3428::convert(Channel channel, Mode mode, Gain gain) const {
     return convert(Configuration(channel, mode, resolution16, gain));
 }
 
