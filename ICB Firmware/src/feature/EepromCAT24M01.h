@@ -40,7 +40,8 @@
 #ifndef EEPROM_CAT24M01_H
 #define EEPROM_CAT24M01_H
 
-#include <inttypes.h>
+//#include <inttypes.h>
+#include <stdint.h>
 class EepromCAT24M01 {
 public:
 

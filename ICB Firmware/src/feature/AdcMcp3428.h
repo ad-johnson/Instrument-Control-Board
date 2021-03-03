@@ -14,7 +14,7 @@
 #ifndef AdcMcp3428_h
 #define AdcMcp3428_h
 
-#include <inttypes.h>
+#include <stdint.h>
 
 class AdcMcp3428 {
 public:

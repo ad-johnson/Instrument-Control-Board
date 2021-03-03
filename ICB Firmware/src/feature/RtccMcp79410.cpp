@@ -407,7 +407,7 @@ bool RtccMcp79410::readClock(struct tm *tm, timeFunc_t function) const {
 		else
 			tm->tm_year = (rtccYearsSinceCenturyStart);
 		tm->tm_yday = -1;
-		Wire.endTransmission();
+//		Wire.endTransmission();
 
 		if ((function != TIME) || (tm->tm_sec == bcdToDec(readData(timeRegister) & 0x7f)))
 			break;

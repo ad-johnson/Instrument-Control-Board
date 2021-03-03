@@ -28,7 +28,7 @@ public:
 	static const uint32_t secsPerDay {86400};
 	static const uint32_t secsPer4Years {secsPerDay * (366 + 365 + 365 + 365)};
 
-	static const uint8_t address {0x68};
+	static const uint8_t address {0x6F};
 	static const uint8_t eepromAddress {0x57};
 
 	static const uint8_t addressTop {0x5F};			// maximum address for registers/SRAM
