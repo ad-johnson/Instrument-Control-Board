@@ -38,7 +38,7 @@
 #ifndef SCPI_LEXER_H
 #define	SCPI_LEXER_H
 
-#include "scpi/types.h"
+#include "types.h"
 #include "utils_private.h"
 
 #ifdef	__cplusplus

@@ -35,10 +35,10 @@
  * 
  */
 
-#include "scpi/parser.h"
-#include "scpi/ieee488.h"
-#include "scpi/error.h"
-#include "scpi/constants.h"
+#include "parser.h"
+#include "ieee488.h"
+#include "error.h"
+#include "constants.h"
 
 #include <stdio.h>
 

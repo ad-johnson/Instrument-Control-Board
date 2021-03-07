@@ -36,11 +36,11 @@
  */
 
 
-#include "scpi/parser.h"
-#include "scpi/minimal.h"
-#include "scpi/constants.h"
-#include "scpi/error.h"
-#include "scpi/ieee488.h"
+#include "parser.h"
+#include "minimal.h"
+#include "constants.h"
+#include "error.h"
+#include "ieee488.h"
 #include "utils_private.h"
 
 /**

@@ -36,11 +36,11 @@
 
 #include <stdint.h>
 
-#include "scpi/parser.h"
-#include "scpi/ieee488.h"
-#include "scpi/error.h"
+#include "parser.h"
+#include "ieee488.h"
+#include "error.h"
 #include "fifo_private.h"
-#include "scpi/constants.h"
+#include "constants.h"
 
 #if USE_DEVICE_DEPENDENT_ERROR_INFORMATION
 #define SCPI_ERROR_SETVAL(e, c, i) do { (e)->error_code = (c); (e)->device_dependent_info = (i); } while(0)
